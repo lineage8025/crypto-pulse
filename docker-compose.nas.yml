@@ -1,0 +1,18 @@
+# Portainer Stack 用（Synology DS423+ / x86-64）
+# 部署前：先把本機 user_data/ 整個放到 NAS 的 /volume1/docker/crypto-pulse/user_data
+# Portainer → Stacks → Add stack → 貼上此內容 → Deploy
+services:
+  freqtrade:
+    image: freqtradeorg/freqtrade:stable
+    container_name: crypto-pulse
+    restart: unless-stopped
+    # 左邊路徑 = NAS 上實際路徑（依你的共享資料夾調整）
+    volumes:
+      - /volume1/docker/crypto-pulse/user_data:/freqtrade/user_data
+    # api_server 已關 → 不需對外開埠
+    command: >
+      trade
+      --logfile /freqtrade/user_data/logs/freqtrade.log
+      --db-url sqlite:////freqtrade/user_data/tradesv3.sqlite
+      --config /freqtrade/user_data/config_bitget_btc15m.json
+      --strategy MeanRevertMakerMTF

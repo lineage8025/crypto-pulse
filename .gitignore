@@ -1,0 +1,20 @@
+# secrets — 絕不上傳
+.env
+*.key
+*.secret
+
+# 執行期資料（保留目錄、不傳內容）
+user_data/logs/*
+!user_data/logs/.gitkeep
+user_data/data/*
+!user_data/data/.gitkeep
+user_data/backtest_results/
+user_data/hyperopt_results/
+user_data/plot/
+user_data/notebooks/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+__pycache__/
+*.pyc
