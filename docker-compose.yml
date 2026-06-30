@@ -1,20 +1,17 @@
 ---
-# Portainer git-stack 部署用：從 repo build image（config+策略已烤進去），不用 bind。
+# Portainer git-stack 部署用：從 repo build image（config+策略已烤進去），不用相對 bind。
+# log/db/journal bind 到 File Station 可見路徑 /volume1/docker/crypto-pulse/logs（需先存在+777）。
 services:
   crypto-pulse:
     build: .
     image: crypto-pulse:latest
     container_name: crypto-pulse
     restart: unless-stopped
-    # log / db / 交易日誌 用 named volume 持久化（config/策略在 image 內）
     volumes:
-      - cp_logs:/freqtrade/user_data/logs
+      - /volume1/docker/crypto-pulse/logs:/freqtrade/user_data/logs
     command: >
       trade
       --logfile /freqtrade/user_data/logs/freqtrade.log
       --db-url sqlite:////freqtrade/user_data/logs/tradesv3.sqlite
       --config /freqtrade/user_data/config_bitget_btc15m.json
       --strategy MeanRevertMakerMTF
-
-volumes:
-  cp_logs:
