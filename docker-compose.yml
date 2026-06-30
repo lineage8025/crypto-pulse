@@ -20,6 +20,8 @@ services:
     #   dockerfile: "./docker/Dockerfile.custom"
     restart: unless-stopped
     container_name: crypto-pulse
+    # git-clone 的 user_data 為 root 擁有；以 root 跑避免 ftuser 寫 log/db 權限不足
+    user: "0:0"
     volumes:
       - "./user_data:/freqtrade/user_data"
     # Expose api on port 8080 (localhost only)
