@@ -4,4 +4,6 @@ USER root
 COPY user_data/ /freqtrade/user_data/
 RUN mkdir -p /freqtrade/user_data/logs /freqtrade/user_data/data \
  && chmod -R 777 /freqtrade/user_data
-# 以 root 跑（NAS dry-run 容器），確保可寫 log/db
+# 切回 ftuser 執行（freqtrade venv/PATH 綁這個 user；用 root 會 ModuleNotFound）
+# 寫入權限靠上面 chmod 777 + named volume 解決
+USER ftuser
